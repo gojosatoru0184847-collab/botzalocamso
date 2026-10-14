@@ -97,7 +97,7 @@
   }
   function update() {
     const s=selection(), file=fileForSelection(s);
-    const captions={hair:'Tóc',top:'Áo',bottom:'Quần',shoes:'Chân',mask:'Nạ',face:'Mặt',action:assets.characterId==='ignis'?'Nấm đấm':'Hành động'};
+    const captions={hair:'Tóc',top:'Áo',bottom:'Quần',shoes:'Giày/Dép',mask:'Mặt nạ',face:'Mặt',action:assets.characterId==='ignis'?'Nấm đấm':'Hành động'};
     const sum=$('selection-summary');
     sum.replaceChildren(...fields.map(k=>{const chip=document.createElement('span');chip.className='chip';const label=document.createElement('b');label.textContent=captions[k];const value=document.createElement('span');value.textContent=picked(k,s).name;value.title=picked(k,s).name;chip.append(label,value);return chip;}));
     if(assets.characterId==='alok'){const credit=document.createElement('span');credit.className='credit';credit.textContent='Giao diện & chỉnh sửa bởi LIMINAL · Mod gốc: LIMINAL';sum.append(credit);}
