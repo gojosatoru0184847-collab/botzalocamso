@@ -1,0 +1,271 @@
+/* FISH MOD Z · Wardrobe — giao diện mới
+   Tông: tím đêm sân khấu + vàng Alok. Một điểm nhấn: sân khấu xoay có đèn rọi. */
+
+:root{
+  color-scheme:dark;
+  --ink:#0e0b1c;
+  --panel:#171331;
+  --raised:#211b44;
+  --raised-2:#2a2354;
+  --line:#352d5f;
+  --line-soft:#2a2350;
+  --text:#f4f0ff;
+  --muted:#a29ac6;
+  --gold:#ffbe3b;
+  --gold-deep:#f59e0b;
+  --gold-ink:#1f1400;
+  --pink:#ff5fa8;
+  --danger:#ff9a9a;
+  --r-lg:22px;
+  --r-md:14px;
+  --r-sm:10px;
+  --font:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  /* tương thích với CSS cũ (item-picker, account, earn) */
+  --bg:var(--ink);--accent:var(--gold);--green:var(--gold);
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;color:var(--text);font:400 15px/1.55 var(--font);
+  background:
+    radial-gradient(900px 520px at 85% -10%,#2b1f5a55,transparent 70%),
+    radial-gradient(700px 480px at -10% 30%,#3b1a4a40,transparent 70%),
+    var(--ink);
+  background-attachment:fixed;
+  min-height:100vh;
+}
+button,select,a{-webkit-tap-highlight-color:transparent}
+button,select,input{font:inherit}
+button,a{touch-action:manipulation}
+button{cursor:pointer;color:inherit}
+button:disabled{cursor:not-allowed;opacity:.5}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+
+.shell{width:min(1240px,calc(100% - 56px));margin:0 auto;padding-bottom:12px}
+
+/* ===== Thanh trên ===== */
+.topbar{height:76px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:16px;letter-spacing:-.01em}
+.brand small{font-weight:500;color:var(--muted);font-size:14px;margin-left:2px}
+.brandmark{
+  position:relative;flex:0 0 auto;width:36px;height:36px;border-radius:50%;
+  background:
+    radial-gradient(circle,var(--gold) 0 17%,#1b1236 18% 24%,transparent 25%),
+    repeating-radial-gradient(circle,#2a2152 0 2px,#171331 2px 4px);
+  box-shadow:0 0 0 1px var(--line),0 6px 18px #0008;
+  font-size:0;
+}
+.fish-top-actions{display:flex;align-items:center;gap:12px}
+.platform{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;font-weight:500;
+  padding:7px 14px;border:1px solid var(--line-soft);border-radius:999px;background:#ffffff05}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+.fish-nav{position:relative}
+.fish-menu-toggle{display:grid;place-items:center;width:42px;height:42px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text);transition:background .15s}
+.fish-menu-toggle:hover{background:var(--raised)}
+.fish-menu{position:absolute;right:0;top:52px;width:200px;z-index:50;padding:6px;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 45px #000a}
+.fish-menu[hidden]{display:none}
+.fish-menu a{display:block;padding:12px 14px;border-radius:9px;font-weight:500}
+.fish-menu a:hover{background:var(--raised)}
+
+/* ===== Tiêu đề ===== */
+.intro{padding:22px 0 24px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
+h1{margin:0;font-size:clamp(32px,5.2vw,52px);font-weight:800;letter-spacing:-.035em;line-height:1.05}
+.status-line{margin:10px 0 0;color:var(--muted);font-size:14px;font-weight:500}
+.status-line:empty{display:none}
+.count{flex:0 0 auto;color:var(--gold);font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px;background:#ffbe3b14;border:1px solid #ffbe3b44}
+
+/* ===== Bố cục chính ===== */
+.workspace{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(360px,1fr);gap:24px;align-items:start}
+
+/* ===== Sân khấu (điểm nhấn) ===== */
+.stage{
+  position:sticky;top:18px;overflow:hidden;border-radius:var(--r-lg);
+  border:1px solid var(--line);background:#120e27;
+  box-shadow:0 30px 70px #0008;
+}
+.stage-head{position:absolute;z-index:3;top:20px;left:22px;right:22px;display:flex;justify-content:space-between;align-items:center;pointer-events:none}
+.character-name{font-size:22px;font-weight:800;letter-spacing:-.01em}
+.badge{font-size:12px;font-weight:600;color:var(--text);background:#0e0b1c99;border:1px solid var(--line);border-radius:999px;padding:5px 12px;backdrop-filter:blur(6px)}
+
+#viewport{
+  position:relative;height:580px;overflow:hidden;
+  background:radial-gradient(ellipse 80% 70% at 50% 38%,#3a2c6e 0,#241b4d 40%,#120e27 80%);
+}
+/* chùm đèn rọi từ trên */
+#viewport::before{
+  content:"";position:absolute;inset:-40% -20% 20% -20%;z-index:0;pointer-events:none;
+  background:conic-gradient(from 180deg at 50% 0,
+    transparent 0 150deg,#ffd77a26 160deg,transparent 172deg,
+    transparent 178deg,#ff5fa826 184deg,transparent 190deg,
+    transparent 188deg,#ffd77a26 200deg,transparent 212deg 360deg);
+  filter:blur(6px);
+  transform-origin:50% 0;animation:sway 14s ease-in-out infinite alternate;
+}
+/* bàn xoay dưới chân nhân vật */
+#viewport::after{
+  content:"";position:absolute;z-index:0;left:50%;bottom:7%;width:78%;height:20%;transform:translateX(-50%);pointer-events:none;
+  border-radius:50%;
+  background:
+    radial-gradient(ellipse at center,#ffbe3b33 0,transparent 62%),
+    repeating-radial-gradient(ellipse at center,transparent 0 14px,#ffffff0d 14px 15px);
+  box-shadow:0 0 0 1px #ffffff14,0 0 40px #ffbe3b22 inset;
+}
+@keyframes sway{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+#viewport canvas{position:relative;z-index:1;width:100%;height:100%;display:block;touch-action:none}
+.watermark{
+  position:absolute;z-index:0;top:12%;left:50%;transform:translateX(-50%);white-space:nowrap;pointer-events:none;
+  font-size:clamp(90px,16vw,170px);font-weight:800;letter-spacing:-.04em;
+  color:transparent;-webkit-text-stroke:1.5px #ffffff12;
+}
+#fallback{position:absolute;z-index:1;inset:0;width:100%;height:100%;object-fit:contain;display:none}
+.preview-message{position:absolute;z-index:2;inset:0;display:grid;place-content:center;padding:35px;text-align:center;color:var(--muted);font-size:14px;pointer-events:none}
+.preview-message.hidden{display:none}
+
+.stage-footer{position:relative;z-index:2;padding:14px 18px;border-top:1px solid var(--line-soft);display:flex;align-items:center;justify-content:space-between;gap:12px;background:#0e0b1c80}
+.stage-footer::before{content:"Kéo để xoay nhân vật";color:var(--muted);font-size:13px}
+#preview-hint{margin:0;color:var(--muted);font-size:12px;flex:1}
+#preview-hint[hidden]{display:none}
+.view-tools{display:flex;gap:8px;flex-shrink:0;margin-left:auto}
+.small-button{background:var(--raised);border:1px solid var(--line);border-radius:10px;min-height:38px;padding:7px 14px;font-size:13px;font-weight:600;white-space:nowrap;transition:background .15s,border-color .15s}
+.small-button:hover:not(:disabled){background:var(--raised-2)}
+.small-button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold);background:#ffbe3b14}
+
+/* ===== Bảng chọn ===== */
+.panel{border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;background:var(--panel);box-shadow:0 30px 70px #0006}
+.panel-title{margin:0 0 18px;font-size:20px;font-weight:700;letter-spacing:-.02em}
+
+/* chọn nền tảng + bản game */
+.version-picker{display:grid;gap:10px;margin-bottom:6px}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:var(--r-md);background:var(--ink);border:1px solid var(--line-soft)}
+.seg button{border:0;background:transparent;color:var(--muted);border-radius:10px;min-height:42px;padding:8px 10px;font-weight:600;font-size:14px;transition:background .15s,color .15s}
+.seg button:hover{color:var(--text)}
+.seg button[aria-pressed="true"]{background:var(--gold);color:var(--gold-ink)}
+.seg button:disabled{opacity:.5}
+.version-row{display:none}              /* select gốc vẫn còn trong DOM để JS cũ dùng */
+
+.form-divider{height:1px;background:var(--line-soft);margin:18px 0}
+.form-row{display:grid;grid-template-columns:116px minmax(0,1fr);align-items:center;gap:12px;margin:10px 0}
+.form-row label{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:14px;font-weight:600;white-space:nowrap}
+.row-icon{display:inline-block;width:22px}
+.select-wrap{position:relative;min-width:0}
+.select-wrap::after{content:"⌄";position:absolute;right:14px;top:8px;pointer-events:none;color:var(--gold)}
+select{
+  width:100%;appearance:none;background:var(--raised);border:1px solid var(--line);border-radius:12px;
+  padding:10px 36px 10px 13px;color:var(--text);font-size:14px;cursor:pointer;min-height:46px;
+}
+
+.mix-tools{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.mix-tools button{border:1px solid var(--line);border-radius:12px;background:transparent;min-height:44px;padding:9px 12px;font-size:14px;font-weight:600;transition:background .15s,border-color .15s}
+.mix-tools button:hover:not(:disabled){background:var(--raised);border-color:#4a4080}
+
+/* bộ đang chọn */
+.selection{margin-top:22px;padding-top:20px;border-top:1px solid var(--line-soft)}
+.selection-caption{margin:0 0 10px;color:var(--muted);font-size:13px;font-weight:600}
+.selection-summary{margin:0;display:flex;flex-wrap:wrap;gap:6px;min-height:34px}
+.chip{display:inline-flex;gap:6px;align-items:baseline;max-width:100%;padding:5px 10px;border-radius:999px;background:var(--raised);border:1px solid var(--line-soft);font-size:12.5px;line-height:1.35}
+.chip b{font-weight:600;color:var(--muted)}
+.chip span{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.credit{flex-basis:100%;margin-top:4px;color:#6f6796;font-size:12px}
+
+/* nút tải — dính đáy bảng để luôn với tới được trên điện thoại */
+.download-area{
+  position:sticky;bottom:0;z-index:5;
+  margin:18px -24px -24px;padding:16px 24px 20px;
+  border-radius:0 0 var(--r-lg) var(--r-lg);
+  background:linear-gradient(to bottom,#17133100,var(--panel) 22px);
+  border-top:0;
+}
+.download{
+  display:flex;width:100%;gap:10px;justify-content:center;align-items:center;
+  min-height:52px;padding:13px 16px;border:0;border-radius:14px;
+  background:var(--gold);color:var(--gold-ink);font-weight:800;font-size:15px;letter-spacing:-.005em;
+  box-shadow:0 10px 28px #f59e0b33;transition:background .15s,transform .1s;
+}
+.download:hover:not(:disabled){background:#ffcb5e}
+.download:active:not(:disabled){transform:scale(.99)}
+.download:disabled{background:var(--raised-2);color:#8b82b4;box-shadow:none}
+.download svg{width:19px;height:19px}
+#download-all{background:transparent;color:var(--text);border:1px solid var(--line);box-shadow:none;min-height:46px;font-weight:600;font-size:14px}
+#download-all:hover:not(:disabled){background:var(--raised);border-color:#4a4080}
+#download-all:disabled{background:transparent;color:#6f6796}
+.status{margin:10px 0 0;text-align:center;font-size:13px;color:var(--muted)}
+.status:empty{display:none}
+.status.error{color:var(--danger)}
+
+footer{display:flex;justify-content:space-between;gap:15px;padding:26px 0 30px;color:#6f6796;font-size:12.5px}
+footer a{text-decoration:underline}
+footer span:last-child{font-size:11.5px;opacity:.8}
+.noscript{padding:20px;color:var(--danger)}
+
+/* ===== Hộp thoại tiến trình ===== */
+html body #mod-progress{position:fixed;inset:0;z-index:10000;background:#070511b3;backdrop-filter:blur(6px);display:grid;place-items:center;padding:20px}
+html body #mod-progress[hidden]{display:none}
+html body .mod-progress-card{width:min(460px,100%);background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:28px;color:var(--text);box-shadow:0 40px 90px #000c}
+html body .mod-progress-heading{display:flex;justify-content:space-between;align-items:baseline;gap:20px;font-weight:700;font-size:18px}
+html body #mod-progress-percent{font-size:34px;font-weight:800;letter-spacing:-.03em;color:var(--gold)}
+html body .mod-progress-card progress{appearance:none;-webkit-appearance:none;width:100%;height:10px;margin:18px 0 12px;border:0;border-radius:99px;overflow:hidden;background:var(--raised)}
+html body .mod-progress-card progress::-webkit-progress-bar{background:var(--raised);border-radius:99px}
+html body .mod-progress-card progress::-webkit-progress-value{background:var(--gold);border-radius:99px;transition:width .25s ease}
+html body .mod-progress-card progress::-moz-progress-bar{background:var(--gold);border-radius:99px}
+html body .mod-progress-card p{margin:0 0 20px;color:var(--muted);font-size:14px}
+html body .mod-progress-card button{min-height:44px;padding:10px 20px;border:1px solid var(--line);border-radius:12px;background:var(--raised);color:var(--text);font-weight:600}
+html body .mod-progress-card button:hover:not(:disabled){background:var(--raised-2)}
+
+/* ===== Điện thoại ===== */
+@media (max-width:900px){
+  .shell{width:calc(100% - 32px)}
+  .workspace{grid-template-columns:1fr}
+  .stage{position:relative;top:0}
+  #viewport{height:min(62vh,500px);min-height:380px}
+  .topbar{height:68px}
+  .intro{padding:14px 0 20px}
+}
+@media (max-width:520px){
+  .shell{width:calc(100% - 24px)}
+  .fish-top-actions .platform{display:none}
+  .brand small{display:none}
+  .count{display:none}
+  .stage-head{top:16px;left:16px;right:16px}
+  .panel{padding:18px}
+  .download-area{margin:16px -18px -18px;padding:14px 18px 16px}
+  .form-row{grid-template-columns:104px minmax(0,1fr);gap:8px}
+  .form-row label{gap:6px;font-size:12.5px}
+  .stage-footer::before{font-size:12px}
+  footer{flex-direction:column;gap:4px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
+
+/* LIMINAL 2026: Polish, responsive controls, and clear feedback */
+:root{--panel:#18132c;--raised:#241d3f;--line:#44365f;--muted:#beb5d1;--r-lg:24px}
+body{background:radial-gradient(800px 480px at 50% -160px,#53338a42,transparent 72%),radial-gradient(700px 480px at 90% 70%,#3f1d5740,transparent 75%),#0e0b1c}
+.topbar{border-bottom:1px solid #ffffff12}
+.panel,.stage{box-shadow:0 22px 65px #05020d66}
+.panel{background:linear-gradient(155deg,#211934 0%,#17112a 72%)}
+.panel-title{font-size:clamp(18px,2vw,23px)}
+.seg button[aria-pressed="true"]{box-shadow:inset 0 0 0 1px #fff4,0 3px 15px #ffbe3b30}
+.mix-tools button:nth-child(n+3){color:#ffe3a8;border-color:#71543555;background:#271f33}
+.mix-tools button:nth-child(n+3):hover{background:#352940}
+button:focus-visible,a:focus-visible{outline:3px solid #ffce70;outline-offset:2px}
+.status{min-height:18px;overflow-wrap:anywhere}
+@media(max-width:520px){
+ .shell{width:calc(100% - 20px)}
+ .topbar{height:62px}
+ .brand{font-size:14px;gap:9px}
+ .brandmark{width:31px;height:31px}
+ .intro h1{font-size:clamp(23px,6.3vw,30px)}
+ #viewport{height:min(54vh,440px);min-height:310px}
+ .panel{padding:16px;border-radius:19px}
+ .form-row{grid-template-columns:86px minmax(0,1fr);gap:7px}
+ .form-row label{font-size:12px;gap:5px}
+ .form-row label img{width:20px;height:20px}
+ .download-area{margin:16px -16px -16px;padding:14px 16px 20px}
+ .mix-tools{gap:8px}
+ .mix-tools button{font-size:12px;padding:10px 5px}
+}
+@media(max-width:360px){.form-row{grid-template-columns:74px minmax(0,1fr)}.form-row label{font-size:11px}}
+/* Keep actions after the complete selection; don't cover pickers on small screens. */
+.download-area{position:static;background:linear-gradient(to bottom,#17133100,var(--panel) 23px)}
