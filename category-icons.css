@@ -1,0 +1,6 @@
+/* Biểu tượng danh mục (Tóc, Áo, Quần, ...) */
+.row-icon.category-icon{
+  display:block;flex:0 0 40px;width:40px;height:40px;padding:5px;object-fit:contain;
+  border-radius:12px;background:var(--raised);border:1px solid var(--line-soft);
+}
+@media(max-width:520px){.row-icon.category-icon{flex-basis:30px;width:30px;height:30px;padding:3px;border-radius:10px}}
